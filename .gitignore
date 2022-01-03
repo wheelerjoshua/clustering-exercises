@@ -8,3 +8,5 @@ __pycache__/
 *lesson*
 *notes*
 zillow.csv
+viz_kmeans.py
+cluster_data.csv
