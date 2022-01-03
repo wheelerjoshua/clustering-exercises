@@ -158,8 +158,9 @@ def split_data(df):
 
 
 #######
+
 def get_mall_customers(sql):
-	    url = get_db_url('mall_customers')
+	    url = get_connection('mall_customers')
 	    mall_df = pd.read_sql(sql, url, index_col='customer_id')
 	    return mall_df
 
@@ -173,7 +174,7 @@ def wrangle_mall_df():
     mall_df = get_mall_customers(sql)
     
     # handle outliers
-    mall_df = outlier_function(mall_df, ['age', 'spending_score', 'annual_income'], 1.5)
+    mall_df = remove_outliers(mall_df, 1.5, ['age', 'spending_score', 'annual_income'])
     
     # get dummy for gender column
     dummy_df = pd.get_dummies(mall_df.gender, drop_first=True)
@@ -185,4 +186,5 @@ def wrangle_mall_df():
     train, test = train_test_split(mall_df, train_size = 0.8, random_state = 123)
     train, validate = train_test_split(train, train_size = 0.75, random_state = 123)
     
-    return min_max_scaler, train, validate, test
+#     return min_max_scaler, train, validate, test
+    return mall_df
